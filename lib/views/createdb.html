@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+
+<h2>Create Database</h2>
+<form class="well form-inline" method="POST">
+    <div class="form-group">
+        <input class="input-medium" type="text" id="database" name="database" placeholder="Database Name" title="Database Name">
+    </div>
+    <button type="submit" class="btn btn-primary pull-right">
+        <span class="glyphicon glyphicon-plus"></span>
+        Create Database
+    </button>
+</form>
