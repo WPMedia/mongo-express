@@ -73,23 +73,21 @@
           <img src="{{ baseHref }}images/mongo-express-logo.png" />
         </a>
       </div>
-      <a class="navbar-brand" href="">Mongo Express</a>
+      <a class="navbar-brand" href="">Mongo Express !!</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-
-
 
         {% block breadcrumb %}
         {% endblock %}
       </ul>
 
-<!--       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../navbar/">Default</a></li>
-        <li><a href="../navbar-static-top/">Static top</a></li>
-        <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-      </ul>
- -->
+      <!--<ul class="nav navbar-nav navbar-right">-->
+        <!--<li><a href="../navbar/">Default</a></li>-->
+        <!--<li><a href="../navbar-static-top/">Static top</a></li>-->
+        <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
+      <!--</ul>-->
+
     </div><!--/.nav-collapse -->
   </div>
 </nav>
@@ -98,8 +96,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="page-header main-title">
-        <h1 id="pageTitle">{{ title }}</h1>
+      <div class="page-header">
+        <h3 id="pageTitle">{{ title }} </h3>
       </div>
 
       {% if messageSuccess %}
@@ -120,7 +118,34 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          {% for db in databases %}
+          <li class="nav-header" onclick="$('#toggle_{{ db }}').collapse('toggle')">
+            {{ db }}
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          </li>
+          <li><a href="{{ baseHref }}db/{{ db }}"><span class="glyphicon glyphicon-folder-open"></span> View Database</a></li>
+          <ul class="unstyled collapse nav nav-list
+            {%- if db == dbName %} in{% endif -%}
+            " id="toggle_{{ db }}">
+            {% for collection_db in collections -%}
+            {% if loop.key == db -%}
+            {% for collection in collection_db -%}
+            <li><a href="{{ baseHref }}db/{{ db }}/{{ collection }}"><span class="glyphicon glyphicon-list-alt"></span> {{ collection }}</a></li>
+            {%- endfor %}
+            {%- endif %}
+            {%- endfor %}
+          </ul>
+          <li class="divider"></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% block sidebar %}{% endblock %}
+    </div>
+    <div class="col-md-9">
       {% block content %}
       {% endblock %}
     </div>
