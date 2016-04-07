@@ -12,10 +12,18 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maintenance<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ baseHref }}admin/backup/">Backup Database</a></li>
-            <li><a href="{{ baseHref }}admin/restore/">Restore Database</a></li>
-            <li><a href="{{ baseHref }}admin/create/">Create Database</a></li>
-            <li><a href="{{ baseHref }}admin/clone/">Clone Database</a></li>
+            <li class="{% if action=='Backup' %}disabled{% endif %}">
+                <a href="{{ baseHref }}db/backup/">Backup Database</a>
+            </li>
+            <li class="{% if action=='Restore' %}disabled{% endif %}">
+                <a href="{{ baseHref }}db/restore/">Restore Database</a>
+            </li>
+            <li class="{% if action=='Create' %}disabled{% endif %}">
+                <a href="{{ baseHref }}db/create/">Create Database</a>
+            </li>
+            <li class="{% if action=='Clone' %}disabled{% endif %}">
+                <a href="{{ baseHref }}db/clone/">Clone Database</a>
+            </li>
         </ul>
     </li>
 </div>

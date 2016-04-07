@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block breadcrumb %}
+
+{% include 'breadcrumb.html' %}
+
+{% endblock %}
+
+{% block title %}Restore database{% endblock %}
+
+
+
+
+{% block content %}
+
+
+<h2>{{action}} Databases</h2>
+<table class="table table-bordered table-striped table-condensed">
+  {% for file in fileList %}
+  <tr>
+    <!-- <td class="col-md-2">
+      <a href="{{ baseHref }}db/{{ db }}/" class="btn btn-success btn-block" >
+        <span class="glyphicon glyphicon-eye-open"></span><br>View
+      </a>
+    </td> -->
+    <td style="padding-left:10px"><h3><a href="{{ baseHref }}db/{{ file }}/">{{ file }}</a></h3></td>
+    {% if !settings.read_only %}
+    <td class="col-md-2">
+      <button class="btn btn-warning btn-block btn-lg backup-button" file-name="{{ file }}" childof="db-{{ file }}">
+        <span class="glyphicon glyphicon-paste"></span> Restore
+      </button>
+    </td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% if !settings.read_only %}
+<div id="confirm-backup" class="modal fade" role="dialog" aria-labelledby="confirmBackupLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Backup database</h4>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Be careful! You are about to backup whole <strong><span id="modal-database-name"></span></strong> database.
+        </p>
+        <p>
+          <label for="confirmation-input">Type the database name to proceed.</label>
+          <input type="text" id="confirmation-input" name="confirmation-input" shouldbe="" value="" />
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn  btn-success" id="backup">Backup</button>
+        <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endif %}
+
+{#
+  # Still need to add global lock time stats and replica set stats
+#}
+
+{% endblock %}
