@@ -51,7 +51,7 @@
                   var input = $('#confirmation-input');
                   if (input.val().toLowerCase() === input.attr('shouldbe').toLowerCase()) {
                     // parentForm.trigger('submit');
-                    console.log("backup database request sent!");
+                    console.log("backup database request sent! "+input.val());
                   }
                 });
       });
