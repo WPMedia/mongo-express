@@ -15,25 +15,46 @@
 
 
 <h2>{{action}} Databases</h2>
-<table class="table table-bordered table-striped table-condensed">
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   {% for db in databases %}
-  <tr>
-    <!-- <td class="col-md-2">
-      <a href="{{ baseHref }}db/{{ db }}/" class="btn btn-success btn-block" >
-        <span class="glyphicon glyphicon-eye-open"></span><br>View
-      </a>
-    </td> -->
-    <td style="padding-left:10px"><h3><a href="{{ baseHref }}db/{{ db }}/">{{ db }}</a></h3></td>
-    {% if !settings.read_only %}
-    <td class="col-md-2">
-      <button class="btn btn-success btn-block btn-lg backup-button" database-name="{{ db }}" childof="db-{{ db }}">
-        <span class="glyphicon glyphicon-copy "></span> Backup
-      </button>
-    </td>
-    {% endif %}
-  </tr>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-{{loop.index}}">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{loop.index}}" aria-expanded="false" aria-controls="collapse-{{loop.index}}">
+          {{db}}
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-{{loop.index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{loop.index}}">
+      <div class="panel-body">
+        <h5 style="margin-top:0">Choose the collections for backup</h5>
+        <form name="{{db}}-collections">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="{{db}}-collections" value="all"> All Collections
+            </label>
+          </div>
+          {% for collection in collections[db] %}
+            <div class="checkbox" style="padding-left:10px">
+              <label>
+                <input type="checkbox" name="{{db}}-collections" value="{{collection}}"> {{collection}}
+              </label>
+            </div>
+          {% endfor %}
+          <!--<button type="submit" class="btn btn-default">Backup</button>-->
+          <button class="btn btn-success backup-button" database-name="{{ db }}" childof="db-{{ db }}">
+          <span class="glyphicon glyphicon-copy "></span> Backup
+          </button>
+        </form>
+    </div>
+  </div>
+  </div>
   {% endfor %}
-</table>
+
+</div>
+
+
 {% if !settings.read_only %}
 <div id="confirm-backup" class="modal fade" role="dialog" aria-labelledby="confirmBackupLabel">
   <div class="modal-dialog" role="document">
