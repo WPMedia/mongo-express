@@ -103,6 +103,9 @@ module.exports = {
     //documentsPerPage: how many documents you want to see at once in collection view
     documentsPerPage: 10,
 
+    mongodumpDir:'mongodump', //sibling folder to the app root,
+    mongodumpTempDir:'temp-mongodump', //sibline folder to the app root, i.e. mongo-express
+
     //editorTheme: Name of the theme you want to use for displaying documents
     //See http://codemirror.net/demo/theme.html for all examples
     editorTheme: process.env.ME_CONFIG_OPTIONS_EDITORTHEME || 'rubyblue',

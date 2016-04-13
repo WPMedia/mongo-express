@@ -15,23 +15,30 @@
 
 
 <h2>{{action}} Databases</h2>
-<table class="table table-bordered table-striped table-condensed">
-  {% for file in fileList %}
-  <tr>
-    <!-- <td class="col-md-2">
-      <a href="{{ baseHref }}db/{{ db }}/" class="btn btn-success btn-block" >
-        <span class="glyphicon glyphicon-eye-open"></span><br>View
-      </a>
-    </td> -->
-    <td style="padding-left:10px"><h3><a href="{{ baseHref }}db/{{ file }}/">{{ file }}</a></h3></td>
-    {% if !settings.read_only %}
-    <td class="col-md-2">
-      <button class="btn btn-warning btn-block btn-lg backup-button" file-name="{{ file }}" childof="db-{{ file }}">
-        <span class="glyphicon glyphicon-paste"></span> Restore
-      </button>
-    </td>
-    {% endif %}
-  </tr>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date/time</th>
+      <th>Db name</th>
+      <th>Collections</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  {% for file in fileList|reverse %}
+  <tbody>
+    <tr>
+      <td style="padding-left:10px">{{ file.backupDate }}</td>
+      <td style="padding-left:10px">{{ file.dbname }}</td>
+      <td style="padding-left:10px">{{ file.collections }}</td>
+      {% if !settings.read_only %}
+      <td class="col-md-2">
+        <button class="btn btn-warning btn-block restore-button" file-name="{{ file.filename }}" childof="db-{{ file.filename }}">
+          <span class="glyphicon glyphicon-paste"></span> Restore
+        </button>
+      </td>
+      {% endif %}
+    </tr>
+  </tbody>
   {% endfor %}
 </table>
 {% if !settings.read_only %}
