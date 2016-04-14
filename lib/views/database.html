@@ -92,17 +92,18 @@
 
 {% if !settings.read_only %}
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <h2>Create Collection</h2>
     <form class="well form-inline" method="POST">
-        <div class="form-group">
-          <span class="add-on">{{ dbName }} . </span>
-          <input class="input-medium" type="text" id="collection" name="collection" placeholder="Collection Name" title="Collection Name">
+        <div class="form-group pull-left">
+          <label class="add-on">{{ dbName }} . </label>
+          <input class="input-medium" style="height: 35px;" type="text" id="collection" name="collection" placeholder="Collection Name" title="Collection Name"/>
         </div>
-        <button type="submit" class="btn btn-primary pull-right">
+        <button type="submit" class="btn btn-primary pull-left" style="margin-left:20px">
           <span class="glyphicon glyphicon-plus"></span>
           Create collection
         </button>
+        <div class="clearfix"></div>
     </form>
   </div>
 </div>
