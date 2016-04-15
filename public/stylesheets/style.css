@@ -146,3 +146,6 @@ ul.unstyled, ol.unstyled {
 .bold{
   font-weight:bold;
 }
+.error{
+  color: red;
+}
