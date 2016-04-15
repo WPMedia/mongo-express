@@ -18,7 +18,7 @@
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   {% for db in databases %}
-  <div class="panel panel-default database" db-name="{{ db }}">
+  <div class="panel panel-default database backup" db-name="{{ db }}">
     <div class="panel-heading" role="tab" id="heading-{{loop.index}}">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{loop.index}}" aria-expanded="false" aria-controls="collapse-{{loop.index}}">

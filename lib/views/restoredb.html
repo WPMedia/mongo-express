@@ -25,22 +25,29 @@
     </tr>
   </thead>
   <tbody>
-  {% for file in fileList|reverse %}
+  {% if fileList&&fileList.length>0 %}
+    {% for file in fileList|reverse %}
     <tr class="restore-file" file-name="{{ file.filename }}">
-      <td style="padding-left:10px">{{ file.backupDate }}</td>
-      <td style="padding-left:10px">
-        <a href="/db/{{ file.dbname }}">{{ file.dbname }}</a>
-      </td>
-      <td style="padding-left:10px">
-        <a href="/db/{{ file.dbname }}/{{file.collection}}">{{ file.collection }}</a>
-      </td>
-      {% if !settings.read_only %}
-      <td class="col-md-2">
-        <a class="restoreTo" style="cursor:pointer" file-name="{{ file.filename }}">restore</a>
-      </td>
-      {% endif %}
+        <td style="padding-left:10px">{{ file.backupDate }}</td>
+        <td style="padding-left:10px">
+          <a href="/db/{{ file.dbname }}">{{ file.dbname }}</a>
+        </td>
+        <td style="padding-left:10px">
+          <a href="/db/{{ file.dbname }}/{{file.collection}}">{{ file.collection }}</a>
+        </td>
+        {% if !settings.read_only %}
+        <td class="col-md-2">
+          <a class="restoreTo" style="cursor:pointer" file-name="{{ file.filename }}">restore</a>
+        </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  {% endif %}
+  {% if !fileList||fileList.length===0 %}
+    <tr>
+      <td colspan="4">No backup found</td>
     </tr>
-  {% endfor %}
+  {% endif %}
   </tbody>
 </table>
 <!--list all the db and collections-->
@@ -48,7 +55,7 @@
   <h5>Select a database</h5>
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     {% for db in databases %}
-    <div class="panel panel-default database" db-name="{{ db }}">
+    <div class="panel panel-default database restore" db-name="{{ db }}">
       <div class="panel-heading" role="tab" id="heading-{{loop.index}}">
         <h4 class="panel-title">
           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{loop.index}}" aria-expanded="false" aria-controls="collapse-{{loop.index}}">

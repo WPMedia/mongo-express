@@ -1,15 +1,40 @@
 {% extends 'layout.html' %}
 
-{% block title %}Home{% endblock %}
+{% block breadcrumb %}
+
+{% include 'breadcrumb.html' %}
+
+{% endblock %}
+
+{% block title %}Clone database{% endblock %}
 
 
-<h2>Create Database</h2>
-<form class="well form-inline" method="POST">
-    <div class="form-group">
-        <input class="input-medium" type="text" id="database" name="database" placeholder="Database Name" title="Database Name">
+
+
+{% block content %}
+
+
+<h2>{{action}} Databases</h2>
+
+{% if !settings.read_only %}
+<div class="row">
+    <div class="col-md-12">
+        <form class="well form-inline" method="POST" action="/">
+            <div class="form-group pull-left">
+                <label class="add-on">New database name:</label>
+                <input class="input-medium" style="height: 35px;min-width:200px;padding:10px" type="text" id="database" name="database" placeholder="Database Name" title="Database Name"/>
+            </div>
+            <button type="submit" class="btn btn-primary pull-left" style="margin-left:20px">
+                <span class="glyphicon glyphicon-plus"></span>
+                Create database
+            </button>
+            <div class="clearfix"></div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary pull-right">
-        <span class="glyphicon glyphicon-plus"></span>
-        Create Database
-    </button>
-</form>
+</div>
+
+
+
+{% endif %}
+
+{% endblock %}

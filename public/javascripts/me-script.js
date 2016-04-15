@@ -1,4 +1,21 @@
 'use strict';
+String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+        return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+            ;
+    });
+};
+
+function addAlert(type,msg,appendedTo){
+    var appendedTo=appendedTo||"#page-title-block";
+    var template = $("#ajaxAlert").html();
+    var alert = template.format(type,msg);
+    $(appendedTo).append(alert);
+}
+
 $(document).ready(function() {
     $('#database').popover({
         content: 'Database names must begin with a letter or underscore, and can contain only letters, numbers, underscores and dots.',
@@ -32,7 +49,7 @@ $(document).ready(function() {
     //end delete db script
 
     //backup db script
-    $(".panel.database").each(function(index,ele){
+    $(".panel.database.backup").each(function(index,ele){
         var db=$(ele).attr("db-name");
         // console.log("db-name:"+db);
         //if all collections is checked, uncheck and disable all other checkboxes, or enable all others
@@ -67,6 +84,7 @@ $(document).ready(function() {
             }).get();
             console.log("collections="+collections);
             $.post( "/db/"+db+"/async/backup", { 'collections': collections },function(resp){
+                addAlert("success","The collections \""+collections.join("\", \"")+"\" are backed up in the files \""+resp.files.join("\", \"")+"\" !!!");
                 console.log("backup call success!")
             } );
         })
@@ -90,7 +108,7 @@ $(document).ready(function() {
         }
     })
 
-    $(".panel.database").each(function(index,ele){
+    $(".panel.database.restore").each(function(index,ele){
         var db=$(ele).attr("db-name");
         // console.log("db-name:"+db);
         //if all collections is checked, uncheck and disable all other checkboxes, or enable all others
@@ -147,12 +165,50 @@ $(document).ready(function() {
             console.log("data="+JSON.stringify(data,true));
             // console.log("collections="+collections);
             $.post( "/db/"+db+"/async/restore", data,function(resp){
+                addAlert("success","The collection \""+resp.collection+"\" in database \""+resp.database+"\" is restroed from  the files \""+resp.file+"\" !!!");
                 console.log("restore call success!")
             } );
         })
     });
 
     //end restore db script
+    //clone db script
+    $(".panel.database.clone").each(function(index,ele){
+        var db=$(ele).attr("db-name");
+        //event gets triggered by either keypres and mouse paste
+        $(ele).find("input[name='clonedDbname']").on("input propertychange",function(){
+            // check if cloned db name existed;
+            var dbNameExisted=false;
+            var clonedDBname=$(this).val();
+            $("#accordion .database.clone").each(function(index,dbEle){
+                if (clonedDBname&&$(dbEle).attr("db-name")===clonedDBname){
+                    dbNameExisted=true;
+                }
+            })
+            $(ele).find('button.clone-button').prop("disabled",dbNameExisted||!clonedDBname);
+            if (dbNameExisted){
+                $(ele).find('.name-existed').show();
+            } else {
+                $(ele).find('.name-existed').hide();
+            }
+        });
+
+        //submit clone async request
+        $(ele).find('button.clone-button').on("click",function(){
+            var data={
+                sourcedb:db,
+                clonedDbname:$(ele).find("input[name='clonedDbname']").val()
+            }
+
+            console.log("data="+JSON.stringify(data,true));
+            // console.log("collections="+collections);
+            $.post( "/db/"+db+"/async/clone", data,function(resp){
+                addAlert("success","The database \""+db+"\" is cloned as \""+data.clonedDbname+"\" !!!");
+                console.log("restore call success!")
+            } );
+        })
+    });
+    //end clone db script
 
 
 }); //end document.ready
