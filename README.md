@@ -11,8 +11,8 @@ Features
 --------
 
 * Connect to multiple databases
-* View/add/delete databases
-* View/add/rename/delete collections
+* View/add/clone/delete databases
+* View/add/backup/restore/rename/delete collections
 * View/add/update/delete documents
 * Preview audio/video/image assets inline in collection view
 * Nested and/or large objects are collapsible for easy overview
